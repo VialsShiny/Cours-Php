@@ -4,7 +4,7 @@
   --eerie-black: #1f1f1fff;
   --brunswick-green: #0c463eff;
   --zomp: #089b7eff;
-  --turquoise: #0bd5adff;
+  --ivory: #0bd5adff;
   --ivory: #fbfceeff;
 }
 
@@ -31,7 +31,7 @@ header {
     top: 15px;
     height: 50px;
     width: fit-content;
-    filter: drop-shadow(5px 5px 8px var(--turquoise));
+    filter: drop-shadow(5px 5px 8px var(--ivory));
   }
 
   nav {
@@ -48,8 +48,8 @@ header {
   
         a {
           font-size: 22px;
-          color: var(--zomp);
-          text-shadow:  var(--turquoise) 1px 0 10px;
+          color: var(--ivory);
+          text-shadow:  var(--ivory) 1px 0 10px;
           text-decoration: none;
         }
       }
@@ -59,21 +59,15 @@ header {
 
 main {
   margin: 0 12vw;
+  z-index: 5;
 
   h1 {
     color: var(--ivory);
     text-decoration: underline;
     text-underline-offset: 3px;
-    z-index: 5;
   }
 
   pre {
     background-color: lightgrey;
   }
-}
-
-div.circle__container {
-  z-index: 2;
-
-  
 }

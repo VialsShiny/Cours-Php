@@ -10,7 +10,23 @@
 </head>
 <body>
     
-<?php 
+<?php
+
+$CreateTitle = function ($title, $type) {
+    echo "<$type>$title</$type>";
+};
+
+$CreateCodeZone = function ($code) {
+    echo "<pre>";
+    echo htmlspecialchars($code);
+    echo "</pre>";
+};
+
+$CreateCommentaire = function ($title) {
+    echo "<em>$title</em>";
+};
+
+// htmlspecialchars()
 
 require_once("./php/header.php");
 require_once("./php/main.php");
