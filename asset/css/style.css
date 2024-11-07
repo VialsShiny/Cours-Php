@@ -8,6 +8,8 @@
   --ivory: #fbfceeff;
 }
 
+
+
 body {
   background-color: var(--eerie-black);
   margin: 0;
@@ -42,14 +44,14 @@ header {
       padding: 0;
       display: flex;
       gap: 24px;
-  
+
       li {
         list-style: none;
-  
+
         a {
           font-size: 22px;
           color: var(--ivory);
-          text-shadow:  var(--ivory) 1px 0 10px;
+          text-shadow: var(--ivory) 1px 0 10px;
           text-decoration: none;
         }
       }
@@ -68,6 +70,26 @@ main {
   }
 
   pre {
-    background-color: lightgrey;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: var(--eerie-black);
+    color: white;
+    box-shadow: #000 1px 0 10px;
+    transition: 0.3s ease;
+
+    &:hover {
+      transform: translate(5px, -5px);
+    }
+  }
+
+  >details {
+    padding: 20px;
+    background-color: var(--brunswick-green);
+    border: 2px var(--zomp) solid;
+    border-radius: 8px;
+
+    div.padding-left {
+      margin-left: 15px;
+    }
   }
 }

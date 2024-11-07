@@ -1,7 +1,7 @@
 <!-- #Header -->
 
 <header>
-  <img src="../asset/img/php.png" alt="php Logo">
+  <img src="./asset/img/php.png" alt="php Logo">
   <nav>
     <ul>
       <li>

@@ -1,0 +1,10 @@
+{
+    "nom": "Pixel",
+    "age": 4,
+    "ville": "Paris",
+    "hobbies": [
+        "croquettes",
+        "dodo",
+        "boule de poils"
+    ]
+}
