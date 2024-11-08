@@ -13,7 +13,7 @@ EOD;
 $CreateCodeZone($code);
 
 // Exécution du code HTML (affichage direct)
-echo $code;
+debug($code);
 
 echo '<hr>';
 

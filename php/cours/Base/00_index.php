@@ -6,7 +6,7 @@ $code = <<<'EOD'
     echo '<p>Je suis genti</p>';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Variable
@@ -18,7 +18,7 @@ $code = <<<'EOD'
     echo "$leCookie<br>";
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Gettype
@@ -29,7 +29,7 @@ $code = <<<'EOD'
     echo gettype($leCookie);
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Concaténation
@@ -39,7 +39,7 @@ $code = <<<'EOD'
     echo $leCookie . '<br>' . 'MAIS NAAAN';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Le += en Php (pour les String)
@@ -52,7 +52,7 @@ $code = <<<'EOD'
     echo $leCookie;
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Const/Define
@@ -65,7 +65,7 @@ $code = <<<'EOD'
     echo CAPITALE2 . '<br>';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Constante Magique (__Teste__)
@@ -77,7 +77,7 @@ $code = <<<'EOD'
     echo __LINE__ . '<br>';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Exercice
@@ -94,7 +94,7 @@ $code = <<<'EOD'
     echo "$bleu$tiret$blanc$tiret$rouge";
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Opérateurs arithmétiques
@@ -108,7 +108,7 @@ $code = <<<'EOD'
     echo $nbr1 . '<br>';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Condition
@@ -132,7 +132,7 @@ $code = <<<'EOD'
     }
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // XOR
@@ -146,7 +146,7 @@ $code = <<<'EOD'
     }
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Ternaire
@@ -156,7 +156,7 @@ $code = <<<'EOD'
     echo ($a === 10) ? 'true' : 'false';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Fonctions prédéfinies
@@ -175,7 +175,7 @@ $code = <<<'EOD'
     echo substr($texte, 0, 4) . ' <a href="">Lire la Suite</a>';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // InArray
@@ -188,7 +188,7 @@ $code = <<<'EOD'
     echo array_key_exists('prenom', $tab_simple) ? 'true' : 'false';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Sort
@@ -200,7 +200,7 @@ $code = <<<'EOD'
     var_dump($fruits);
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Array_Map
@@ -216,7 +216,7 @@ $code = <<<'EOD'
     var_dump($b);
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Explode
@@ -228,7 +228,7 @@ $code = <<<'EOD'
     var_dump($tabToExplode);
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Implode
@@ -239,7 +239,7 @@ $code = <<<'EOD'
     echo $tabToImplode;
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);
 echo '<hr>';
 
 // Array_rand
@@ -251,15 +251,8 @@ $code = <<<'EOD'
     var_dump($randomKeys);
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);    
 echo '<hr>';
-
-function debug($param)
-{
-    echo '<pre>';
-    print_r($param);
-    echo '</pre>';
-}
 
 // EXO 2
 $CreateTitle('Sélecteur d\'années', 'h2');
@@ -274,4 +267,4 @@ $code = <<<'EOD'
     echo '</select>';
 EOD;
 $CreateCodeZone($code);
-eval($code);
+debug($code);

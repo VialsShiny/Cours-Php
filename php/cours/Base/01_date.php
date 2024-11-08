@@ -25,7 +25,7 @@ EOD;
 $CreateCodeZone($code);
 
 // Exécution du code PHP
-eval($code);
+debug($code);
 
 echo '<hr>';
 

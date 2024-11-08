@@ -69,16 +69,52 @@ main {
     text-underline-offset: 3px;
   }
 
+  h2, h4 {
+    padding-right: 12px;
+    width: fit-content;
+    position: relative;
+    margin-bottom: 4px;
+
+    &::before {
+      content: ' :';
+      position: absolute;
+      right: 0;
+    }
+  }
+
   pre {
-    padding: 8px;
+    position: relative;
+    padding: 28px 8px 8px;
+    margin: 0;
     border-radius: 4px;
     background-color: var(--eerie-black);
     color: white;
     box-shadow: #000 1px 0 10px;
     transition: 0.3s ease;
 
-    &:hover {
-      transform: translate(5px, -5px);
+    &::before {
+      content: 'Code :';
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      color: white;
+    }
+  }
+
+  .console {
+    padding-top: 8px;
+    margin-bottom: 8px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 0 0 4px 4px;
+
+    &::before {
+      content: 'Console :';
+      position: absolute;
+      top: 8px;
+      left: auto;
+      right: 8px;
+      color: red;
     }
   }
 

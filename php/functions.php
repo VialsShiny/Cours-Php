@@ -13,3 +13,10 @@ $CreateCodeZone = function ($code) {
 $CreateCommentaire = function ($title) {
     echo "<em>$title</em><br>";
 };
+
+function debug($param)
+{
+    echo '<pre class="console">';
+    print_r($param);
+    echo '</pre>';
+}
