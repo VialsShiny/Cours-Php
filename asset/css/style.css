@@ -5,7 +5,9 @@
   --brunswick-green: #0c463eff;
   --zomp: #089b7eff;
   --ivory: #0bd5adff;
-  --ivory: #fbfceeff;
+  --white: #fbfceeff;
+
+  --linear-gradient: rgba(255, 255, 255, 1) 0%, rgba(31, 31, 31, 1) 100%;
 }
 
 
@@ -16,6 +18,7 @@ body {
   font-family: "Roboto Slab", serif;
   font-optical-sizing: auto;
   font-style: normal;
+  color: white;
 }
 
 header {
@@ -33,7 +36,7 @@ header {
     top: 15px;
     height: 50px;
     width: fit-content;
-    filter: drop-shadow(5px 5px 8px var(--ivory));
+    filter: drop-shadow(5px 5px 8px var(--white));
   }
 
   nav {
@@ -50,8 +53,8 @@ header {
 
         a {
           font-size: 22px;
-          color: var(--ivory);
-          text-shadow: var(--ivory) 1px 0 10px;
+          color: var(--white);
+          text-shadow: var(--white) 1px 0 10px;
           text-decoration: none;
         }
       }
@@ -64,12 +67,13 @@ main {
   z-index: 5;
 
   h1 {
-    color: var(--ivory);
+    color: var(--white);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
 
-  h2, h4 {
+  h2,
+  h4 {
     padding-right: 12px;
     width: fit-content;
     position: relative;
@@ -82,24 +86,68 @@ main {
     }
   }
 
-  pre {
-    position: relative;
-    padding: 28px 8px 8px;
-    margin: 0;
-    border-radius: 4px;
-    background-color: var(--eerie-black);
-    color: white;
-    box-shadow: #000 1px 0 10px;
-    transition: 0.3s ease;
+  div.exemple {
+    padding: 5px;
+    background: linear-gradient(-180deg, var(--white), var(--eerie-black));
+    background-size: 200% 200%;
+    border-radius: 8px;
+    overflow: hidden;
+    animation: gradient 7.5s ease infinite;
 
-    &::before {
-      content: 'Code :';
-      position: absolute;
-      top: 8px;
-      left: 8px;
+    pre {
+      position: relative;
+      padding: 28px 8px 8px;
+      margin: 0;
       color: white;
+
+      &::before {
+        content: '...';
+        text-decoration: underline;
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        color: white;
+      }
+    }
+
+    pre:first-of-type {
+      border-radius: 8px 8px 0 0;
+      background-color: var(--eerie-black);
+      color: #fff;
+
+      &::before {
+        content: 'Exemple :';
+        color: #fff;
+      }
+    }
+
+    pre:last-of-type {
+      border-radius: 0 0 8px 8px;
+      background-color: #fff;
+      color: var(--eerie-black);
+
+      &::before {
+        content: 'Console :';
+        left: auto;
+        right: 8px;
+        color: red;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    &:hover {
+      perspective: 250px;
+      box-shadow: 0px 0px 6px var(--white);
+      transform: rotateY(25deg);
+      box-shadow: 0px 0px 30px var(--white);
+      cursor: pointer;
     }
   }
+
+
 
   .console {
     padding-top: 8px;
@@ -117,15 +165,18 @@ main {
       color: red;
     }
   }
+}
 
-  >details {
-    padding: 20px;
-    background-color: var(--brunswick-green);
-    border: 2px var(--zomp) solid;
-    border-radius: 8px;
+@keyframes gradient {
+  0% {
+    background-position: 50% 0;
+  }
 
-    div.padding-left {
-      margin-left: 15px;
-    }
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 50% 0;
   }
 }

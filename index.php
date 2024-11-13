@@ -12,28 +12,14 @@
 
 <body>
 
-    <?php
+<?php
 
-    $CreateTitle = function ($title, $type) {
-        echo "<$type>$title</$type>";
-    };
+require_once("./php/header.php");
+require_once("./php/main.php");
 
-    $CreateCodeZone = function ($code) {
-        echo "<pre>";
-        echo htmlspecialchars($code);
-        echo "</pre>";
-    };
+?>
 
-    $CreateCommentaire = function ($title) {
-        echo "<em>$title</em>";
-    };
-
-    // htmlspecialchars()
-    
-    require_once("./php/header.php");
-    require_once("./php/main.php");
-
-    ?>
+<!-- <script src="./asset/js/3D.js"></script> -->
 
 </body>
 
