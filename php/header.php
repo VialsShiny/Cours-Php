@@ -5,7 +5,7 @@
   <nav>
     <ul>
       <li>
-        <a href="#">Home</a>
+        <a href="?cours=First">First</a>
       </li>
       <li>
         <a href="#">Main</a>

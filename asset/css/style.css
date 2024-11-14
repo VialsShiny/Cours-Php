@@ -2,6 +2,7 @@
 
 :root {
   --eerie-black: #1f1f1fff;
+  --raisin-black: #1d1e2cff;
   --brunswick-green: #0c463eff;
   --zomp: #089b7eff;
   --ivory: #0bd5adff;
@@ -92,13 +93,18 @@ main {
     background-size: 200% 200%;
     border-radius: 8px;
     overflow: hidden;
-    animation: gradient 7.5s ease infinite;
+    transition: box-shadow 0.5s ease-out, transform 1s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     pre {
+      overflow: scroll;
+      overflow-y: hidden;
       position: relative;
       padding: 28px 8px 8px;
       margin: 0;
       color: white;
+      -ms-overflow-style: none;
+      overflow: -moz-scrollbars-none;
 
       &::before {
         content: '...';
@@ -108,9 +114,14 @@ main {
         left: 8px;
         color: white;
       }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     pre:first-of-type {
+      scrollbar-width: 0px;
       border-radius: 8px 8px 0 0;
       background-color: var(--eerie-black);
       color: #fff;
@@ -128,8 +139,6 @@ main {
 
       &::before {
         content: 'Console :';
-        left: auto;
-        right: 8px;
         color: red;
       }
 
@@ -139,33 +148,38 @@ main {
     }
 
     &:hover {
-      perspective: 250px;
-      box-shadow: 0px 0px 6px var(--white);
-      transform: rotateY(25deg);
-      box-shadow: 0px 0px 30px var(--white);
-      cursor: pointer;
-    }
-  }
-
-
-
-  .console {
-    padding-top: 8px;
-    margin-bottom: 8px;
-    background-color: #fff;
-    color: #000;
-    border-radius: 0 0 4px 4px;
-
-    &::before {
-      content: 'Console :';
-      position: absolute;
-      top: 8px;
-      left: auto;
-      right: 8px;
-      color: red;
+      transform: translateY(5px);
+      box-shadow: 0 2px 4px var(--white);
     }
   }
 }
+
+details {
+  background-color: var(--raisin-black);
+  border: var(--white) 2px dashed;
+  border-radius: 16px;
+  width: calc(100% - 64px);
+  padding: 16px 32px;
+
+  &[open] {
+    padding-bottom: 32px;
+  }
+
+  img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+div.cours__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+/* Animation */
 
 @keyframes gradient {
   0% {

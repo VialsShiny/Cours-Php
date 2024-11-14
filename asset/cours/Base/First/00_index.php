@@ -1,5 +1,8 @@
 <?php
 
+$CreateTitle('Bases :', 'h1');
+
+
 // Echo
 $code = <<<PHP
 echo "<p>Je suis gentil</p>";
