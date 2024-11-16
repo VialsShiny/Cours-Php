@@ -1,7 +1,7 @@
 <?php
 
 $CreateTitle = function ($title, $type) {
-    echo "<$type>$title</$type>";
+    echo "<$type id='$title'>$title</$type>";
 };
 
 $CreateCommentaire = function ($title) {

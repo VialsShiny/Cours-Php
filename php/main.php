@@ -8,17 +8,29 @@
             <h1>Les bases | First :</h1>
 
             <div class="cours__container">
-                <details class="first">
+                <details>
                     <summary>Les bases</summary>
                     <?php include_once('./asset/cours/Base/First/00_index.php') ?>
                 </details>
-                <details class="first">
+                <details>
                     <summary>Les Dates</summary>
                     <?php include_once('./asset/cours/Base/First/01_date.php') ?>
                 </details>
-                <details class="first">
+                <details>
                     <summary>Exercices</summary>
                     <?php include_once('./asset/cours/Base/First/01_exercices.inc.php') ?>
+                </details>
+            </div>
+        <?php } ?>
+
+        <?php if ($_GET['cours'] == "GET") { ?>
+            <h1>Les bases | First :</h1>
+
+            <div class="cours__container">
+                <details>
+                    <summary>GET</summary>
+                    <?php $CreateTitle('GET', 'h2') ?>
+                    <iframe src="./asset/cours/Base/GET/03_profile.php"></iframe>
                 </details>
             </div>
         <?php } ?>

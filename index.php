@@ -16,10 +16,12 @@
 
 require_once("./php/header.php");
 require_once("./php/main.php");
+require_once("./php/sidebar.inc.php");
 
 ?>
 
 <!-- <script src="./asset/js/3D.js"></script> -->
+ <script src="./asset/js/sidebar.js"></script>
 
 </body>
 

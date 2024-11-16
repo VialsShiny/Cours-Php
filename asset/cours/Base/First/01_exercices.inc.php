@@ -25,37 +25,91 @@ var_dump(\$tabF);
 PHP;
 
 ob_start();
-eval ($code);
+try {
+    eval($code);
+} catch (Throwable $e) {
+    echo "Erreur dans 2.1 : " . $e->getMessage();
+}
 $res = ob_get_clean();
-$CreateCodeExemple('2.1', 'h4', $code, $res);
+$CreateCodeExemple('2.1', 'h3', $code, $res);
 
 // 2.2
 $code = <<<PHP
 
-\$tabRandom = array();
-for (\$i = 0; \$i <= 9; \$i++) {
-    array_push(\$tabRandom, rand(1, 100));
+\$arrInfo = array(
+    'DUPONT' => array(
+        'Clé' => 'Valeur',
+        'prénom' => 'PAUL',
+        'profession' => 'Ministre',
+        'age' => 50,
+    ),
+    'DURANT' => array(
+        'Clé' => 'Valeur',
+        'prénom' => 'ROBERT',
+        'profession' => 'agriculteur',
+        'age' => 45,
+    )
+);
+
+?>
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            th, td {
+                border: 1px solid #000;
+                padding: 5px 10px;
+            }
+            td {
+                width: 95px;
+            }
+        }
+    </style>
+</head>
+<table>
+    <caption>PHP</caption>
+    <tbody>
+    <tr>
+        <th scope="col">Clé</th>
+        <th scope="col" colspan="2">Valeur</th>
+    </tr>
+    <?php
+    foreach (\$arrInfo as \$key => \$valeur) {
+        echo '<tr>';
+        echo "<th scope=\\"row\\" rowspan=\\"5\\">\$key</th>";
+        foreach (\$valeur as \$k => \$v) {
+            if (\$k === "Clé") {
+                echo '<td>' . \$k . '</td>';
+            }
+            if (\$v === "Valeur") {
+                echo '<td>' . \$v . '</td>';
+            }
+        }
+        echo '</tr>';
+        foreach (\$valeur as \$k => \$v) {
+            echo '<tr>';
+            if (\$k !== "Clé") {
+                echo '<td>' . \$k . '</td>';
+            }
+            if (\$v !== "Valeur") {
+                echo '<td>' . \$v . '</td>';
+            }
+            echo '</tr>';
+        }
+    }
+    ?>
+    </tbody>
+</table>
+PHP;
+
+ob_start();
+try {
+    eval($code);
+} catch (Throwable $e) {
+    echo "Erreur dans 2.2 : " . $e->getMessage();
 }
-sort(\$tabRandom);
-\$newTab = implode(' ; ', \$tabRandom);
-var_dump(\$newTab);
-PHP;
-
-ob_start();
-eval ($code);
 $res = ob_get_clean();
-$CreateCodeExemple('2.2', 'h4', $code, $res);
-
-// 2.3
-$code = <<<PHP
-
-include '01_tab.inc.php';
-PHP;
-
-ob_start();
-eval ($code);
-$res = ob_get_clean();
-$CreateCodeExemple('2.3', 'h4', $code, $res);
+$CreateCodeExemple('2.2', 'h3', $code, $res);
 
 // 2.4
 $code = <<<PHP
@@ -73,9 +127,13 @@ echo \$result;
 PHP;
 
 ob_start();
-eval ($code);
+try {
+    eval($code);
+} catch (Throwable $e) {
+    echo "Erreur dans 2.4 : " . $e->getMessage();
+}
 $res = ob_get_clean();
-$CreateCodeExemple('2.4', 'h4', $code, $res);
+$CreateCodeExemple('2.4', 'h3', $code, $res);
 
 // 2.5
 $code = <<<PHP
@@ -83,26 +141,39 @@ $code = <<<PHP
 \$imgArray = array();
 \$url = "https://api.thecatapi.com/v1/images/search?size=med&mime_types=jpg&format=json&has_breeds=true&order=RANDOM&page=0&limit=1";
 
-for (\$i = 0; \$i < 3; \$i++) {
-    \$result = file_get_contents(\$url);
-    \$result = json_decode(\$result, true);
+try {
+    for (\$i = 0; \$i < 3; \$i++) {
+        \$result = @file_get_contents(\$url); // Utilisation de @ pour éviter l'affichage des warnings
+        if (\$result === false) {
+            throw new Exception("Erreur lors de la récupération des données depuis l'API.");
+        }
 
-    if (isset(\$result[0]['url'])) {
+        \$result = json_decode(\$result, true);
+        if (!isset(\$result[0]['url'])) {
+            throw new Exception("Le format des données retournées est incorrect.");
+        }
+
         \$imgArray[] = [
             'twitch.tv/el_vials',
             \$result[0]['url'],
             'Cat',
         ];
     }
+
+    foreach (\$imgArray as \$img) {
+        echo "<img src='" . htmlspecialchars(\$img[1]) . "' alt='" . htmlspecialchars(\$img[2]) . "'>";
+    }
+} catch (Exception \$e) {
+    echo "Une erreur est survenue : " . \$e->getMessage();
 }
-    
-foreach (\$imgArray as \$img) {
-    echo "<img src=" . \$img[1] . " alt=" . \$img[2] . ">";
-}
+
 PHP;
 
 ob_start();
-eval ($code);
+try {
+    eval($code);
+} catch (Throwable $e) {
+    echo "Erreur dans 2.5 : " . $e->getMessage();
+}
 $res = ob_get_clean();
-$CreateCodeExemple('2.5', 'h4', $code, $res);
-
+$CreateCodeExemple('2.5', 'h3', $code, $res);
