@@ -33,6 +33,13 @@
     }
 
 </style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
 <?php
 /**
  * **********************
@@ -46,7 +53,7 @@
 function debugP($param)
 {
     echo '<pre style="background-color: #D5ECD4 ;">';
-    var_dump($param);
+    print_r($param);
     echo '</pre>';
 }
 
@@ -227,9 +234,9 @@ debugP($res);
     while ($ligne = $res->fetch(PDO::FETCH_OBJ)) { ?>
         <tr>
             <?php
-                foreach ($ligne as $data) {
-                    echo '<td>' . $data . '</td>';
-                }
+            foreach ($ligne as $data) {
+                echo '<td>' . $data . '</td>';
+            }
             ?>
         </tr>
     <?php } ?>
@@ -240,13 +247,140 @@ debugP($res);
 //----------------------------------------
 echo '<h3> 08 - Requête préparée et bindParam() </h3>';
 //----------------------------------------
+
+$nom = 'Vignal';
+
+$res = $pdo->prepare("SELECT * FROM employes WHERE nom = :nom");
+// :nom est un marqueur nominatif (il a un nom) qui est en attente d'une valeur (il est vide à cette étape)
+// il faut relier la valeur de $nom et le marqueur :nom qui est dans la requête
+
+$nom = 'Mila';
+$res->bindParam(':nom', $nom);
+$res->execute();
+
+$data = $res->fetch(PDO::FETCH_ASSOC);
+debugP($data);
+
 //---------------------------------------------------------------
 echo '<h3> 09 - requête préparée et bindValue() </h3>';
 //---------------------------------------------------------------
+
+$nom = 'Vignal';
+
+$res = $pdo->prepare("SELECT * FROM employes WHERE nom = :nom");
+// :nom est un marqueur nominatif (il a un nom) qui est en attente d'une valeur (il est vide à cette étape)
+// il faut relier la valeur de $nom et le marqueur :nom qui est dans la requête
+
+$res->bindValue(':nom', $nom);
+$nom = 'Mila';
+// $res->bindValue(':nom', $nom);
+$res->execute();
+
+$data = $res->fetch(PDO::FETCH_ASSOC);
+debugP($data);
+
+// Exercice :
+/*
+    - Afficher dans une liste <ul><li> : le prenom, le nom et le salaire des employés du service commercial (1 commercial par <li>). Pour cela , vous utilisez une requete préparée.
+    - Afficher le nombre de commerciaux dans l'entreprise.
+ */
+
+echo '<hr>';
+
+// 1
+$param = 'commercial';
+$res = $pdo->prepare("SELECT prenom, nom, salaire FROM employes WHERE service = :param");
+$res->bindValue(':param', $param);
+$res->execute();
+
+$employes = $res->fetchAll(PDO::FETCH_OBJ);
+
+echo '<ul>';
+foreach ($employes as $employe) {
+    echo "<li> $employe->prenom $employe->nom $employe->salaire </li>";
+}
+echo '</ul>';
+
+echo '<hr>';
+// 2
+
+$res->execute();
+$employes = $res->fetchAll(PDO::FETCH_ASSOC);
+
+echo '<ul>';
+for ($i = 0; $i < count($employes); $i++) {
+    echo '<li>' . $employes[$i]['prenom'] . ' ' . $employes[$i]['nom'] . ' ' . $employes[$i]['salaire'] . '</li>';
+}
+echo '</ul>';
+
 //----------------------------------------
 echo '<h3> 10 - Requête préparée et points complémentaires </h3>';
 //----------------------------------------
+
+// 1 \ Le marqueur Anonyme ---
+$res = $pdo->prepare("SELECT * FROM employes WHERE prenom = ? AND prenom = ?");
+
+// VERSION COMPLÈTE
+$res->bindValue(1, 'Pixel');
+$res->bindValue(2, 'Merlin');
+
+// VERSION COURTE
+$res->execute(array('Pixel', 'Merlin'));
+
+// 2 \ Le marqueur nominatif ---
+$res = $pdo->prepare("SELECT * FROM employes WHERE nom = :nom AND prenom = :prenom");
+$prenom = 'Pixel';
+$nom = 'Mila';
+
+// VERSION 'LONGUE'
+$res->bindValue(':prenom', 'Pixel');
+$res->bindValue(':nom', 'Mila');
+
+// VERSION COURTE
+$res->execute(array(
+        ':prenom' => 'Pixel', // $prenom
+        ':nom' => 'Mila', // $nom
+    )
+);
+
+
 //----------------------------------------
 echo '<hr>';
 echo '<h3> 11 - La méthode fetchClass() </h3>';
+
 //----------------------------------------
+
+class Employes
+{
+    public $id_employes;
+    public $prenom;
+    public $nom;
+    public $sexe;
+    public $salaire;
+    public $service;
+    public $date_embauche;
+}
+
+$res = $pdo->query("SELECT * FROM employes");
+$res->setFetchMode(PDO::FETCH_CLASS, 'Employes');
+
+$data = $res->fetchAll();
+
+debugP($data);
+
+// EXOS \\
+
+/*
+* CAS PRATIQUE : un formulaire pour poster des commentaires
+* Objectif : sécuriser le formulaire
+*/
+/***
+ * Modélisation de la BDD :
+ * BDD : dialogue
+ * Table : commentaires
+ * Champs : id_commentaire      INT PK AI
+ *          pseudo              VARCHAR(20)
+ *          message             TEXT
+ *          date_enregistrement DATETIME
+ */
+
