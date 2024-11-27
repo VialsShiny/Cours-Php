@@ -21,7 +21,7 @@ for (\$i = 0; \$i <= 9; \$i++) {
     array_push(\$tabF, \$tab1[\$i] + \$tab2[\$i]);
 }
 
-var_dump(\$tabF);
+print_r(\$tabF);
 PHP;
 
 ob_start();
@@ -35,7 +35,6 @@ $CreateCodeExemple('2.1', 'h3', $code, $res);
 
 // 2.2
 $code = <<<PHP
-
 \$arrInfo = array(
     'DUPONT' => array(
         'Clé' => 'Valeur',
@@ -52,20 +51,6 @@ $code = <<<PHP
 );
 
 ?>
-<head>
-    <style>
-        table {
-            border-collapse: collapse;
-            th, td {
-                border: 1px solid #000;
-                padding: 5px 10px;
-            }
-            td {
-                width: 95px;
-            }
-        }
-    </style>
-</head>
 <table>
     <caption>PHP</caption>
     <tbody>

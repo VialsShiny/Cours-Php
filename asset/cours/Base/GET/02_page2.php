@@ -1,7 +1,7 @@
 <?php
 function debugV($param) {
     echo '<pre style="background: black; color: white;">';
-    var_dump($param);
+    print_r($param);
     echo '</pre>';
 }
 

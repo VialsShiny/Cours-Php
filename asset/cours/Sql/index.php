@@ -2,7 +2,7 @@
 // Fonction de validation pour vérifier l'absence de caractères spéciaux
 function isNotSpecial($value)
 {
-    return !preg_match('/[#$%^&*()+=\-[\];,.\/{}|":<>~\\\\]/', trim($value));
+    return !preg_match('/[#$%^&*()+=\[\];,.\/{}|":<>~\\\\]/', trim($value));
 }
 
 $prenom = $commentaire = "";
@@ -28,11 +28,25 @@ try {
     die('Erreur : ' . $e->getMessage());
 }
 
+function DeleteCommentaire($id, $pdo) {
+    $del = $pdo->prepare("DELETE FROM commentaires WHERE id_commentaire = ?");
+    $del->execute([$id]);
+    header('Location: ?');
+}
+
+if (isset($_GET["id"]) && !empty($_GET["id"])) {
+    DeleteCommentaire($_GET["id"], $pdo);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation du pseudo
     if (!empty($_POST['pseudo'])) {
         if (isNotSpecial($_POST['pseudo']) && $_POST['pseudo'] !== "user1") {
-            $prenom = htmlspecialchars(trim($_POST['pseudo']));
+            if (strlen($_POST['pseudo']) <= 20) {
+                $prenom = htmlspecialchars(trim($_POST['pseudo']), ENT_QUOTES);
+            } else {
+                $errorTable['prenom'] = 'Le Pseudo est trop grand';
+            }
         } else {
             $errorTable['prenom'] = 'Pseudo invalide';
         }
@@ -43,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation du commentaire
     if (!empty($_POST['commentaire'])) {
         if (isNotSpecial($_POST['commentaire'])) {
-            $commentaire = htmlspecialchars(trim($_POST['commentaire']));
+            $commentaire = htmlspecialchars(trim($_POST['commentaire']), ENT_QUOTES);
         } else {
             $errorTable['commentaire'] = 'Commentaire invalide';
         }
@@ -56,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$hasError) {
         // Préparation de la requête sécurisée
-        $res = $pdo->prepare("INSERT INTO commentaires (prenom, message, date_enregistrement) VALUES (?, ?, NOW())");
+        $res = $pdo->prepare("INSERT INTO commentaires (prenom, message) VALUES (?, ?)");
         if ($res) {
             $res->execute([$prenom, $commentaire]);
             // Redirection après l'insertion
@@ -67,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -78,11 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire de Commentaire</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        <
-        style >
-        .none {
+        < style>.none {
             display: none;
             visibility: hidden;
         }
@@ -137,52 +150,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
+    <div class="result">
+        <?php
+        $data = $pdo->query("SELECT * FROM commentaires ORDER BY date_enregistrement DESC");
+        $res = $data->fetchAll(PDO::FETCH_ASSOC);
 
-<div class="result">
-    <?php
-    $data = $pdo->query("SELECT * FROM commentaires ORDER BY date_enregistrement DESC");
-    $res = $data->fetchAll(PDO::FETCH_ASSOC);
-
-    foreach ($res as $comment) {
-        if ($comment['prenom'] != 'user1') {
-            echo "<div>";
-            echo "<p>Envoyé par <span>" . htmlspecialchars_decode($comment['prenom']) . "</span> le <span>" . htmlspecialchars_decode($comment['date_enregistrement']) . "</span> :</p>";
-            echo "<hr>";
-            echo "<em>" . htmlspecialchars_decode($comment['message']) . "</em>";
-            echo "<hr>";
-            echo "</div>";
-        }
-    }
-    ?>
-</div>
-
-<form method="post">
-    <h2 class="text-center mb-4">Laissez un commentaire</h2>
-
-    <div class="mb-3">
-        <label for="pseudo" class="form-label">Pseudo</label>
-        <input type="text" class="form-control <?php echo $errorTable['prenom'] ? 'is-invalid' : 'is-valid'; ?>" id="pseudo"
-               name="pseudo" placeholder="Entrez votre pseudo" value="<?php echo htmlspecialchars($prenom); ?>"
-               required>
-        <div class="invalid-feedback">
-            <?php echo $errorTable['prenom']; ?>
-        </div>
+        foreach ($res as $comment) { ?>
+            <div>
+                <a href="?id=<?php echo $comment['id_commentaire'] ?>">Delete</a>
+                <?php
+                if (trim($comment['prenom']) != 'user1') {
+                    echo "<p>Envoyé par <span>" . htmlspecialchars_decode(trim($comment['prenom'])) . "</span> le <span>" . htmlspecialchars_decode($comment['date_enregistrement']) . "</span> :</p>";
+                    echo "<hr>";
+                    echo "<em>" . htmlspecialchars_decode($comment['message']) . "</em>";
+                    echo "<hr>";
+                }
+                ?>
+            </div>
+        <?php } ?>
     </div>
 
-    <div class="mb-3">
-        <label for="commentaire" class="form-label">Commentaire</label>
-        <textarea class="form-control <?php echo $errorTable['commentaire'] ? 'is-invalid' : 'is-valid'; ?>" id="commentaire"
-                  name="commentaire" rows="4" placeholder="Votre commentaire"
-                  required><?php echo htmlspecialchars($commentaire); ?></textarea>
-        <div class="invalid-feedback">
-            <?php echo $errorTable['commentaire']; ?>
+    <form method="post">
+        <h2 class="text-center mb-4">Laissez un commentaire</h2>
+
+        <div class="mb-3">
+            <label for="pseudo" class="form-label">Pseudo</label>
+            <input type="text" class="form-control <?php echo $errorTable['prenom'] ? 'is-invalid' : 'is-valid'; ?>"
+                id="pseudo" name="pseudo" placeholder="Entrez votre pseudo"
+                value="<?php echo htmlspecialchars($prenom); ?>" required>
+            <div class="invalid-feedback">
+                <?php echo $errorTable['prenom']; ?>
+            </div>
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-primary w-100">Envoyer</button>
-</form>
+        <div class="mb-3">
+            <label for="commentaire" class="form-label">Commentaire</label>
+            <textarea class="form-control <?php echo $errorTable['commentaire'] ? 'is-invalid' : 'is-valid'; ?>"
+                id="commentaire" name="commentaire" rows="4" placeholder="Votre commentaire"
+                required><?php echo htmlspecialchars($commentaire); ?></textarea>
+            <div class="invalid-feedback">
+                <?php echo $errorTable['commentaire']; ?>
+            </div>
+        </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        <button type="submit" class="btn btn-primary w-100">Envoyer</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
