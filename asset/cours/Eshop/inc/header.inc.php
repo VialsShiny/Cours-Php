@@ -28,7 +28,7 @@
 
                     // ADMIN
                     if (internantesEstConnecteEtAdmin()) {
-                        echo '<li class="nav-item"><a class="nav-link" href="' . RACINE_SITE . 'views/gestion_boutique.php">Admin</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="' . RACINE_SITE . 'admin/gestion_boutique.php">Admin</a></li>';
                     }
                     ?>
                 </ul>

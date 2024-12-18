@@ -62,12 +62,12 @@ session_start();
 /*
  * Constante qui contient le chemin du site
  */
-define('RACINE_SITE', './Cours_Php/asset/cours/SQL Demo/');
+define('RACINE_SITE', '/Cours_Php/asset/cours/Eshop/');
 
 /*
  * Variable d'affichage
  */
-$contenue = '';
+$contenu = '';
 $contenue_gauche = '';
 $contenue_droite = '';
 

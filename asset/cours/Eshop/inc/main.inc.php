@@ -33,7 +33,7 @@ $contenue_gauche .= '</div>';
 // filtre des produits affichés
 if (isset($_GET['categorie']) && $_GET['categorie'] !== 'tous') {
   $res = executeRequete("SELECT * FROM produit WHERE categorie = :categorie", [
-          ':categorie' => $_GET['categorie']
+    ':categorie' => $_GET['categorie']
   ]);
 } else {
   $res = executeRequete("SELECT * FROM produit");
@@ -49,17 +49,23 @@ while ($produit = $res->fetch(PDO::FETCH_OBJ)) {
 <!DOCTYPE html>
 <main class="countainer" style="min-height: 80vh;">
   <div class="container">
-    <h1 class="mt-4">Vêtements</h1>
+    <?php if (isset($_GET['id_produit']) && !empty($_GET['id_produit'])) {
+      include_once './views/fiche_produit.php';
+    } elseif (isset($_GET['inscription']) && !empty($_GET['inscription'])) {
+      include_once "./views/inscription.php";
+    } else { ?>
+      <h1 class="mt-4">Vêtements</h1>
 
-    <div class="row">
-      <div class="col-lg-3">
-        <?php echo $contenue_gauche; // pour afficher les catégories ?>
-      </div>
-      <div class="col-lg-9">
-        <div class="row">
-          <?php echo $contenue_droite; // pour afficher les produits ?>
+      <div class="row">
+        <div class="col-lg-3 mb-3">
+          <?php echo $contenue_gauche; // pour afficher les catégories ?>
         </div>
-      </div>
-    </div><!-- .row -->
+        <div class="col-lg-9">
+          <div class="row">
+            <?php echo $contenue_droite; // pour afficher les produits ?>
+          </div>
+        </div>
+      </div><!-- .row -->
+    <?php } ?>
   </div>
 </main>
